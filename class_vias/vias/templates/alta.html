@@ -13,15 +13,50 @@
     
         <form action="/viasdiarias" method="post">
            <div>
-                <label for="provincia">Provincia</label>
-                <input type="text" name="provincia" > Provincia
-                <input type="date" name="fecha" required> Fecha
-                <input type="number" name="vias_totales" > Vias totales
-                <input type="number" name="vias_V" > Vias V
-                <input type="number" name="vias_6" > Vias 6
-                <input type="number" name="vias_7" > Vias 7
-                <input type="number" name="vias_8" > Vias 8
-                <input type="number" name="vias_9" > Vias 9
+                <div>
+                    <label for="provincia">Provincia:</label>
+                    <select name="provincia" required>
+                        {% for provincia in provincias %} <!-- En este caso, provincias es la variable que representa la lista-->
+                            <option value="{{provincia.codigo}}">{{provincia.descripcion}}</option> <!-- "{{provincia.codigo}}" representa a los códigos de la lista. En esta linea he creado mi estructura d e datos, que va a ser una lista de diccinarios. El código de la provincia seria la clave y la descripción de la provincia seria el valor -->
+                        {% endfor %}
+                
+                </div>
+                
+                <div>
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" name="fecha" required 
+                    value={{datos.fecha}}>               
+                </div>
+
+                <div>
+                    <label for="vias_V">Vias V:</label>
+                    <input type="number" name="vias_V" required 
+                    value="{{datos.vias_V}}"> 
+                </div>
+
+                <div>  
+                    <label for="vias_6">Vias 6:</label>
+                    <input type="number" name="vias_6" required 
+                    value="{{datos.vias_6}}"> 
+                </div>
+                
+                <div>
+                    <label for="vias_7">Vias 7:</label>
+                    <input type="number" name="vias_7" required 
+                    value="{{datos.vias_7}}"> 
+                </div>
+                    
+                <div>    
+                    <label for="vias_8">Vias 8:</label>
+                    <input type="number" name="vias_8" required 
+                    value="{{datos.vias_8}}"> 
+                </div>
+
+                <div>
+                    <label for="vias_9">Vias 9:</label>
+                    <input type="number" name="vias_9" required 
+                    value="{{datos.vias_9}}"> 
+                </div>    
 
                 <button type="submit">Enviar</button>
             </div> 

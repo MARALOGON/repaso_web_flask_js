@@ -2,7 +2,7 @@ from flask import render_template, request
 from vias import app
 import csv #Se importa la libreria csv, que contiene metodos de lectura del archivo csv ue nos van a servir para nuestro programa para no tener que hacerlo manualmente
 import json
-
+from datetime import date
 
 
 
@@ -90,26 +90,62 @@ def vias(year, mes, dia):
 
 @app.route("/viasdiarias", methods = ['GET', 'POST'])
 def vias_diarias():
-    if request.method == 'GET':
-        return render_template("alta.html") #Con este render_template se devuelve el formulario vacio que ehmos creado en alta.html al hacer una petición GET, es decir al escribir en el navegaodr la ruta que tiene el decorador de esta función 
+    formulario = {  #para no tener que meter todas las variables (provincia, fecha, vias_V, etc.) del formulario en la linea de return render_template, creo este diccionario que contenga todas las claves y valores que voy a tener que actualizarcuando mande una petición al servidor, con la intención de crear un nuevo registro
+        'provincia': '',
+        'fecha': str(date.today()),
+        'vias_V': 0,
+        'vias_6': 0,
+        'vias_7': 0,
+        'vias_8': 0,
+        'vias_9': 0,
 
-    #Validar la informacion que llega
+    }
+
+    fichero = open("data/provincias.csv", "r") #Creo una variable para llamar a abrir el fichero del listado de provincias y leerlo (con "r")
+    csvreader = csv.reader(fichero, delimiter=';') #Leo el fichero provincias con csv.reader y le asigno una variable donde se guardan todos los datos de la lectura
+    next(csvreader) #metodo para que no lea el primer registo, ya que son los fieldnames
+
+    lista = [] #Creamos la lista vacia de diccionarios, cada diccionario va compuesto de una clave (que es el codigo de la provincia) y de un valor(que es la descripción del codigo, la provincia en si) 
+    for registro in csvreader: #registro es cada linea del fichero provincias, por ejemplo "O,Asturias"
+        d = {'codigo': registro[0], 'descripcion': registro[1]} #creo la variable d que almacena los pares codigo-valor de la lista de diccionarios. Ej: codigo:'O', descripcion: 'Asturias'
+        lista.append(d) #Añado a la lista cada registro leido y almacenado en la variable d
+    
+    fichero.close()
+
+    if request.method == 'GET':
+        return render_template("alta.html", datos = formulario, provincias =lista) #Con este render_template se devuelve el formulario que hemos creado en alta.html al hacer una petición GET, con los valores por defecto que hemos incluido en el diccionario llamado formulario. 
+        #La clave "datos" de la linea de arriba llama a Jinja de alta.html, ya que entre llaves el valor que se le da es el que se le asigna en value por ejemplo value="{{datos.vias_6}}". Esto quiere decir que el valor del input de vias_6 que viaje va a ser el dato que introduzcamos en el campo vias_6
+        #La variables provincias es ua lista de diccionarios, recorre la lista del archivo provincias y lo convierte en un diccionario, con clave-valor, segun hemos indicado con Jinja en el archivo HTML, a traves de las etiquetas select y option. Ademas, se devuelve el diccionario de codigos provincia y descripcion de provincia que hemos creado con la variable lista justo arriba. 
+
+    #Validar la informacion que llega:
+    #Que la provincia sea correcta, para ello vamos a utilizar request.form
+   
+   
+   # Antes de validar, vamos a informar el forumlario para que en caso de que se haga un POST y haya un error en algun campo, no se borren los datos introducidos cuando os de el mensaje de error, es decir cuando el servidor devuelva una respuesta
+    for clave in formulario:
+        formulario[clave] = request.form[clave] #El diccionario de entrada que viene con las valores que ha dado el usuario a las claves, se lo asigno a mi formulario de vuelta, se quedan esos valores por defecto, pero solo si hace un pOST, por eso se pone detras del request.method == 'GET' y no delante
+
+
     #Que los valores de los casos sean numeros y sean enteros positivos
-    #valores = request.form #Se asigna a la variable valores los datos que contengan los input en las peticiones que se envien del formulario al introducir un nuevo registro
+    
     #validar que el numero de vias_V sea >= 0 y entero positivo
-    try:
-        #request.form es la clase, el objeto que tiene toda la información de la peticion, que la gestionan el servidor y flask y nos la dan para que la manejemos  
-        vias_V = int(request.form["vias_V"])  #Comprobamos que el valor introducido en el input de vias_V sea un numero entero. (request.form["vias_V"]) hace referencia al nombre del campo que hemos puesto en el archivo HTML, por eso va entre comillas, porque en ese archivo también va entre comillas en el atributo name que e corresponde.
-        if vias_V < 0: #Si el valor introducido es entero pero negativo (por ejemplo -3)
-            raise ValueError('Debe ser positivo') #Forzamos un error un lanzamos un mensaje
+    formulario['provincia'] = request.form['provincia']
+
+    vias_V = request.form['vias_V']
+    try:   
+        vias_V = int(valores["vias_V"])     
+        if vias_V < 0: 					
+            raise ValueError ('Debe ser positivo’) 
+
     except ValueError:
-        return render_template("alta.html", vias_V = "Introduce un valor correcto")
+        return render_template("alta.html", datos = formulario)
+
 
 
 
 
     #Que el total de los casos sea la suma del resto de casos
-    #Que la provincia sea correcta
+  
     #Que la fecha sea correcta en formato y en valor
     #Que la fecha no sea a futuro ni anterior a la fecha de inciio de la primera entrada de la base de datos
 
