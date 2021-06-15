@@ -1,6 +1,8 @@
+from flask import render_template, request
 from vias import app
 import csv #Se importa la libreria csv, que contiene metodos de lectura del archivo csv ue nos van a servir para nuestro programa para no tener que hacerlo manualmente
 import json
+
 
 
 
@@ -33,6 +35,7 @@ def laprovincia(codigoProvincia):
 
     fichero.close()
     return "La provincia no existe" #Si el codigo que hemos puesto en el navegador no existe, develve ese mensaje
+
 @app.route("/vias/<int:year>", defaults={'mes': None, 'dia': None}) #Esta es la ruta que se activa en caso de que solo se introduzca año, hay que poner los valores mes y dia por defecto a None porque si no peta
 @app.route("/vias/<int:year>/<int:mes>", defaults={'dia': None}) #Esta es la ruta que se activa en caso de que solo se introduzca año y mes
 @app.route("/vias/<int:year>/<int:mes>/<int:dia>") #Aqui en la ruta forzamos a que los numeros que se metan en el navegador sean enteros, flask hace este trabajo de reconocerlos y de dar error en caso de que no lo sean.
@@ -84,4 +87,38 @@ def vias(year, mes, dia):
     return str(vias_totales)
 
     '''
-  
+
+@app.route("/viasdiarias", methods = ['GET', 'POST'])
+def vias_diarias():
+    if request.method == 'GET':
+        return render_template("alta.html") #Con este render_template se devuelve el formulario vacio que ehmos creado en alta.html al hacer una petición GET, es decir al escribir en el navegaodr la ruta que tiene el decorador de esta función 
+
+    #Validar la informacion que llega
+    #Que los valores de los casos sean numeros y sean enteros positivos
+    #valores = request.form #Se asigna a la variable valores los datos que contengan los input en las peticiones que se envien del formulario al introducir un nuevo registro
+    #validar que el numero de vias_V sea >= 0 y entero positivo
+    try:
+        #request.form es la clase, el objeto que tiene toda la información de la peticion, que la gestionan el servidor y flask y nos la dan para que la manejemos  
+        vias_V = int(request.form["vias_V"])  #Comprobamos que el valor introducido en el input de vias_V sea un numero entero. (request.form["vias_V"]) hace referencia al nombre del campo que hemos puesto en el archivo HTML, por eso va entre comillas, porque en ese archivo también va entre comillas en el atributo name que e corresponde.
+        if vias_V < 0: #Si el valor introducido es entero pero negativo (por ejemplo -3)
+            raise ValueError('Debe ser positivo') #Forzamos un error un lanzamos un mensaje
+    except ValueError:
+        return render_template("alta.html", vias_V = "Introduce un valor correcto")
+
+
+
+
+    #Que el total de los casos sea la suma del resto de casos
+    #Que la provincia sea correcta
+    #Que la fecha sea correcta en formato y en valor
+    #Que la fecha no sea a futuro ni anterior a la fecha de inciio de la primera entrada de la base de datos
+
+    #Si la infroamión es incorrecta
+
+
+
+
+
+    return "Se ha hecho un post" #Cuando rellenamos el formulario y lo enviamos, como el method es POST y no GET, no entra en el if y lo que hace es enviar los datos introducidos en el formulario y devolver el mensaje 
+
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vias por provincia y fecha</title>
+    </head>
+    <body>
+        <h1>Alta de vias diarias realizadas</h1>
+        <p>Formulario de alta de vias diarias realizadas</p>
+        <p>Aqui podrás insertar las vias realizadas por dia y por provincia</p>
+    
+        <form action="/viasdiarias" method="post">
+           <div>
+                <label for="provincia">Provincia</label>
+                <input type="text" name="provincia" > Provincia
+                <input type="date" name="fecha" required> Fecha
+                <input type="number" name="vias_totales" > Vias totales
+                <input type="number" name="vias_V" > Vias V
+                <input type="number" name="vias_6" > Vias 6
+                <input type="number" name="vias_7" > Vias 7
+                <input type="number" name="vias_8" > Vias 8
+                <input type="number" name="vias_9" > Vias 9
+
+                <button type="submit">Enviar</button>
+            </div> 
+        </form>
+    
+    </body>
+</html>
