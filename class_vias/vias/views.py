@@ -131,14 +131,16 @@ def vias_diarias():
     #validar que el numero de vias_V sea >= 0 y entero positivo
     formulario['provincia'] = request.form['provincia']
 
+
     vias_V = request.form['vias_V']
-    try:   
-        vias_V = int(valores["vias_V"])     
+
+    try:  
+        vias_V = int(vias_V)     
         if vias_V < 0: 					
-            raise ValueError ('Debe ser positivo’) 
+            raise ValueError('Debe ser positivo’)
 
     except ValueError:
-        return render_template("alta.html", datos = formulario)
+        return render_template("alta.html", datos = formulario, error = "Vias V no puede ser negativo", provincias=lista)
 
 
 
