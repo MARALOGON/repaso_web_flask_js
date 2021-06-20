@@ -35,7 +35,14 @@ def index():
 
 @app.route('/nuevo', methods=['GET', 'POST'])
 def nuevo():
-    form = MovimientosForm() #Creamos la variable form que va a ser una instancia de MovimientosForm que hay en el fichero forms.py y que hemos importado a este fichero
-    return render_template('alta.html', form = form) #En este segundo parametro, el primer form hace referencia al form de alta.html y el segundo form hace referencia a la variable form de este fichero, en la lunea de encima de este
 
-
+    formulario = MovimientosForm() #Creamos la variable form que va a ser una instancia de MovimientosForm que hay en el fichero forms.py y que hemos importado a este fichero
+    if request.method == 'GET':
+        return render_template('alta.html', form = formulario) #En este segundo parametro, el form hace referencia al form de alta.html y formulario hace referencia a la variable formulario de este fichero, en la lunea de encima de este
+    else:
+        if formulario.validate(): #Validate es un metodo que valida de forma automática todas las validaciones que hemos incluido en forms.py. Además en la variable formulario (instancia de MovimientosForm) nos deja la información de cada error que se produzca 
+            pass    
+            #Insertar el movimiento en la base de datos
+            #Redirect a la ruta /
+        else:
+            return render_template('alta.html', form = formulario)

@@ -6,25 +6,46 @@
 
 <h1>Nuevo movimiento </h1>
 <form action="nuevo" method="post">
+   {{ form.hidden_tag() }} <!-- Aquí va a incluir un campo oculto asociado al token que viene secret key del formulario -->
     <fieldset class="container"> <!-- La etiqueta fieldset permite dividir el formulario en campos-->
             <div>
                 {{ form.fecha.label(class="mylabel") }}
                 {{ form.fecha(type="date") }}
+                {% for error in fecha.errors %}
+                    <p class="msg-err">
+                    {{ error }}
+                    </p>
+                {% endfor %}
             </div>        
   
             <div>
                 {{ form.concepto.label(class="mylabel") }}
                 {{ form.concepto() }}
+                {% for error in concepto.errors %}
+                    <p class="msg-err">
+                    {{ error }}
+                    </p>
+                {% endfor %}
             </div>
        
             <div>
                 {{ form.categoria.label(class="mylabel") }}
                 {{ form.categoria() }}
+                {% for error in categoria.errors %}
+                    <p class="msg-err">
+                    {{ error }}
+                    </p>
+                {% endfor %}
             </div>
      
             <div>
                 {{ form.cantidad.label(class="mylabel") }}
                 {{ form.cantidad() }}
+                {% for error in cantidad.errors %}
+                    <p class="msg-err">
+                    {{ error }}
+                    </p>
+                {% endfor %}
             </div>
      
             <div>
