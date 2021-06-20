@@ -1,6 +1,7 @@
 from kakebo import app
-from flask import render_template, jsonify #jsonify hace lo mismo que el json.dumps, pero es mas adecuado importarlo porque es un objeto de flask y monta las cabeceras de manera mas adecuada
+from flask import render_template, jsonify, request #jsonify hace lo mismo que el json.dumps, pero es mas adecuado importarlo porque es un objeto de flask y monta las cabeceras de manera mas adecuada
 import sqlite3
+from kakebo.forms import MovimientosForm
 
 @app.route('/')
 def index():
@@ -34,6 +35,7 @@ def index():
 
 @app.route('/nuevo', methods=['GET', 'POST'])
 def nuevo():
-    return render_template('alta.html')
+    form = MovimientosForm() #Creamos la variable form que va a ser una instancia de MovimientosForm que hay en el fichero forms.py y que hemos importado a este fichero
+    return render_template('alta.html', form = form) #En este segundo parametro, el primer form hace referencia al form de alta.html y el segundo form hace referencia a la variable form de este fichero, en la lunea de encima de este
 
 

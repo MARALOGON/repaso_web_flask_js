@@ -1,0 +1,37 @@
+.mylabel{
+    width: 80px;
+    display: inline-block;
+    font-weight: bold;
+
+}
+
+.msg-err {
+    font-size: 0.8em; 
+    color: darkred;
+    font-weight: bold;
+    margin-left: 105px;
+}
+
+.popup {
+    background-color: floralwhite;
+}
+
+.popup p {    /*El . es un selector de CSS que hace referencia a la clase popup. La p especifica que las propiedades descritas a continuación se apliquen a todos los parrafos (<p>) html que estén dentro de la clase popup*/
+    font-size: 1.2em;
+    text-align: center;
+    color :darkred;
+}
+
+.popup p.aviso {
+    color: green;
+}
+
+.popup p.error {
+    color: darkred;
+
+}
+.btn {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: darkred;
+}
