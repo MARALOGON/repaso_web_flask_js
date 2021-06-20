@@ -6,12 +6,12 @@
 
 <h1>Nuevo movimiento </h1>
 <form action="nuevo" method="post">
-   {{ form.hidden_tag() }} <!-- Aquí va a incluir un campo oculto asociado al token que viene secret key del formulario -->
+   {{ form.hidden_tag() }} <!-- Aquí va a incluir un campo oculto asociado al token que viene de la secret key del formulario -->
     <fieldset class="container"> <!-- La etiqueta fieldset permite dividir el formulario en campos-->
             <div>
                 {{ form.fecha.label(class="mylabel") }}
                 {{ form.fecha(type="date") }}
-                {% for error in fecha.errors %}
+                {% for error in form.fecha.errors %}
                     <p class="msg-err">
                     {{ error }}
                     </p>
@@ -21,7 +21,7 @@
             <div>
                 {{ form.concepto.label(class="mylabel") }}
                 {{ form.concepto() }}
-                {% for error in concepto.errors %}
+                {% for error in form.concepto.errors %}
                     <p class="msg-err">
                     {{ error }}
                     </p>
@@ -31,7 +31,7 @@
             <div>
                 {{ form.categoria.label(class="mylabel") }}
                 {{ form.categoria() }}
-                {% for error in categoria.errors %}
+                {% for error in form.categoria.errors %}
                     <p class="msg-err">
                     {{ error }}
                     </p>
@@ -41,7 +41,7 @@
             <div>
                 {{ form.cantidad.label(class="mylabel") }}
                 {{ form.cantidad() }}
-                {% for error in cantidad.errors %}
+                {% for error in form.cantidad.errors %}
                     <p class="msg-err">
                     {{ error }}
                     </p>
