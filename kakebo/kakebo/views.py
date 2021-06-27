@@ -89,3 +89,8 @@ def nuevo():
 
         else:
             return render_template('alta.html', form = formulario)
+
+
+@app.route('/borrar/<int:id>', methods=['GET', 'POST'])
+def borrar(id):
+    return render_template('borrar.html', identificador = id)

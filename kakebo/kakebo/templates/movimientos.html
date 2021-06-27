@@ -19,6 +19,7 @@
                 <th>Tipo</th>
                 <th>Cantidad</th>  
                 <th>Saldo</th>
+
             </tr>
             {% for movimiento in datos %} <!-- Utilizamos un for de Jinja para recorrer todos los datos de cada registro de la tabla. En HTML no puedo definir variables, tienen que venir dadas. En este caso, la variable datos se le asigna la lista de diccionarios creada en la variable movmientos en el fichero views-->
             <tr>
@@ -32,6 +33,9 @@
                     {% endif %}
                <td>{{ movimiento.cantidad }}</td>
                <td>{{ movimiento.saldo }}</td>
+               <td class="btn">
+                   <a href="/borrar/{{ movimiento.id }}">Borrar</a>  <!--  Meter entre llaves movimiento.id permite identificar al formulario cual de los registros es el que quiere borrar. En el inspector del navegador aparecerá como "/borrar/1" por ejemplo. Jinja susituye {{ movimientos.id }} por el id seleccionado de la base de datos-->
+               </td>
             </tr>
             {% endfor %}
         </table>
