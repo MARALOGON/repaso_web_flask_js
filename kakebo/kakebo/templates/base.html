@@ -12,6 +12,15 @@
     <header class="oscuro" id="cabecera">
         Kakebo Web - BZ VII
     </header>
+    {% with mensajes = get_flashed_messages() %} <!-- get_flashed_messages es una funcion de Jinja que devuelve toda la lista de mensajes flash que hayamos incluido en los demas ficheros-->
+        {% if mensajes %} 
+       <div class="popup">
+            {% for mensaje in mensajes %}
+            <p>{{ mensaje }}</p>
+            {% endfor %}  
+       </div>
+       {% endif %}
+    {% endwith %}    
     <section class="container">
         {% block contenido %}{% endblock %}
     </section>
