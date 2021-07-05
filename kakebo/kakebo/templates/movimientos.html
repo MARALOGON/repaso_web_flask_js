@@ -19,24 +19,56 @@
                 <th>Tipo</th>
                 <th>Cantidad</th>  
                 <th>Saldo</th>
+                <th></th>
 
             </tr>
             {% for movimiento in datos %} <!-- Utilizamos un for de Jinja para recorrer todos los datos de cada registro de la tabla. En HTML no puedo definir variables, tienen que venir dadas. En este caso, la variable datos se le asigna la lista de diccionarios creada en la variable movmientos en el fichero views-->
             <tr>
-               <td>{{ movimiento.fecha }}</td> <!-- Para llamar en Jinja se utilia la doble llave-->
-               <td>{{ movimiento.concepto }}</td>
-               <td>{{ movimiento.categoria }}</td>
-               <td> {% if movimiento.esGasto == 0 %} <!-- Como el campo esGasto es un booleano, le metemos un if y si es false, es decir el valor es 0, es decir, no es un gasto, sino un ingreso, (continua en la siguiente linea...)-->
+                <td>{{ movimiento.fecha }}</td> <!-- Para llamar en Jinja se utilia la doble llave-->
+                <td>{{ movimiento.concepto }}</td>
+                <td>{{ movimiento.categoria }}</td>
+                <td> {% if movimiento.esGasto == 0 %} <!-- Como el campo esGasto es un booleano, le metemos un if y si es false, es decir el valor es 0, es decir, no es un gasto, sino un ingreso, (continua en la siguiente linea...)-->
                         Ingreso  <!-- Se imprime en la celda correspondiente la palabra Ingreso -->
                     {% else %}
                         Gasto 
                     {% endif %}
-               <td>{{ movimiento.cantidad }}</td>
-               <td>{{ movimiento.saldo }}</td>
-               <td class="btn">
-                   <a href="/borrar/{{ movimiento.id }}">Borrar</a>  <!--  Meter entre llaves movimiento.id permite identificar al formulario cual de los registros es el que quiere borrar. En el inspector del navegador aparecerá como "/borrar/1" por ejemplo. Jinja susituye {{ movimientos.id }} por el id seleccionado de la base de datos-->
-               </td>
+                </td>
+                <td>{{ movimiento.cantidad }}</td>
+                <td>{{ movimiento.saldo }}</td>
+                <td class="btn">
+                    <a href="/borrar/{{ movimiento.id }}">Borrar |</a>  <!--  Meter entre llaves movimiento.id permite identificar al formulario cual de los registros es el que quiere borrar. En el inspector del navegador aparecerá como "/borrar/1" por ejemplo. Jinja susituye {{ movimientos.id }} por el id seleccionado de la base de datos-->
+                    <a href="/modificar/{{ movimiento.id }}">Modificar</a>
+                </td>
             </tr>
             {% endfor %}
         </table>
+        <form action="/" method="post">
+            <fieldset class="container"> <!-- Esta clase container pertence al framework mini-default, es el aspecto de los contenedores del formulario-->
+                {{ formulario.hidden_tag() }} <!-- Este hace referencia a un campo que se creará oculto en el formulario para asar la validaion del token csrf-->
+                <div>
+                    {{ form.fechaDesde.label(class="mylabel")}}
+                    {{ formulario.fechaDesde(type="date") }}
+                    {% for error in formulario.fechaDesde.errors %}
+                    <p class="msg-err">
+                    {{ error }}
+                    </p>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ formulario.fechaHasta.label(class="mylabel")}}
+                    {{ formulario.fechaHasta(type="date") }}
+                    {% for error in formulario.fechaDesde.errors %}
+                    <p class="msg-err">
+                    {{ error }}
+                    </p>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ formulario.texto.label(class="mylabel") }}
+                    {{ formulario.texto() }}
+                </div>
+            </fieldset>
+            {{ formulario.submit }}
+            <a href="/">Reset</a>
+        </form>
 {% endblock %}

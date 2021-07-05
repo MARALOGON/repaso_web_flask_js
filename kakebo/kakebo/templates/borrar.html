@@ -3,6 +3,42 @@
 {% block titulo %} Nuevo {% endblock %}
 
 {% block contenido %}
-    <p>Formulario de borrado del movimiento {{ identificador }}</p>
+<h1>Borrar movimiento</h1>
+<div class="card">
+    <form action="/borrar/{{ movimiento.id }}" method ="post">
+        <div>
+            <label for="fecha">Fecha</label>
+            <input type="text" name="fecha" value="{{ movimiento.fecha }}">
+        </div>        
+
+        <div>
+            <label for="concepto">Concepto</label>
+            <input type="text" name="concepto" value="{{ movimiento.concepto }}">
+        </div>
+
+        <div>
+            <label for="categoria">Categoria</label>
+            <input type="text" name=categoria" value="{{ movimiento.categoria }}">
+        </div>
+
+        <div>
+            <label for="cantidad">Fecha</label>
+            <input type="text" name="cantidad" value="{{ movimiento.cantidad }}">
+        </div>
+
+        <div>
+            <label for="esGasto">esGasto</label>
+            <input type="checkbox" name="esGasto" {% if movimiento.esGasto !=0 %} checked {% endif %}>
+        </div> 
+        <input type="submit" value="Aceptar">
+        <a href="/">Cancelar</a>
+   
+    </form>
+        
+
+</div>
+
+
+
 {% endblock %}
 

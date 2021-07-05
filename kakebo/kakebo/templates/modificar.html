@@ -1,11 +1,11 @@
 {% extends 'base.html' %} 
 
-{% block titulo %} Nuevo {% endblock %}
+{% block titulo %} Modificar {% endblock %}
 
 {% block contenido %}
 
-<h1>Nuevo movimiento </h1>
-<form action="/nuevo" method="post">
+<h1>Modificar movimiento </h1>
+<form action="/modificar/{{ form.id.data }}" method="post">
    {{ form.hidden_tag() }} <!-- Aquí va a incluir un campo oculto asociado al token que viene de la secret key del formulario -->
     <fieldset class="container"> <!-- La etiqueta fieldset permite dividir el formulario en campos-->
             <div>
